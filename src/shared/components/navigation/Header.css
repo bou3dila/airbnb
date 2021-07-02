@@ -1,6 +1,100 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    margin-top: 20px;
+    padding:10px;
+    height: 50px;
+    box-shadow: 0px 2px #888888;
+    background-color: #fff;
+}
+
 .header__icon{
     object-fit: contain;
-    height: 50px;
-    margin-top: 10px;
+    height: 40px;
     margin-left: 20px;
+    
+}
+
+.header__center {
+    display: flex;
+    flex: 1;
+    align-items:center;
+    max-width: fit-content;
+    padding: 10px;
+    height: 30px;
+    border: 1px solid lightgray;
+    border-radius: 999px;
+}
+
+.header__center > input {
+    border: none;
+    padding: 10px;
+    outline-width: 0;
+    width: 250px;
+}
+
+.header__center > svg:hover {
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 18%);
+    border-radius: 999px;
+}
+
+.header__right > svg {
+    padding: 5px;
+}
+
+.header__right{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 18vw;
+    margin-right: 60px;
+    margin-left: 60px;
+    padding: 5px
+}
+
+
+.header__avatar{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border: 1px solid lightgray;
+    justify-content: space-between;
+    border-radius: 999px;
+}
+
+.header__avatar:hover {
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 18%);
+    
+}
+
+.header__right > svg:hover {
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 18%);
+    border-radius: 999px;
+    border: 0px solid lightgray;
+}
+.header__right > p:hover {
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 18%);
+    border-radius: 999px;
+    padding: 10px
+}
+.header__right > p {
+    padding: 10px
+}
+
+@media screen and (max-width: 960px) {
+    .header__center > input {
+        width: 100px;
+    }
+
+    
+
+    .header__right > p {
+      display: none;
+    }
+    
 }
