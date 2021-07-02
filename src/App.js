@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
-import {client} from './client';
+
+import HousesList from './houses/pages/HousesList';
 
 function App() {
 
-  const [articles, setArticles] = useState([]);
-
-  useEffect(()=>{
-    client.getEntries()
-    .then((response)=>{
-      console.log(response)
-    })
-    .catch(console.error)
-  })
+ 
 
   return (
     <div className="App">
@@ -24,6 +17,7 @@ function App() {
         </header>
         <main>
           <div className="wrapper"></div>
+          <HousesList />
         </main>
       </div>
       
