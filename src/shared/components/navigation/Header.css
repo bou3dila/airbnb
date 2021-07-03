@@ -35,7 +35,7 @@
     border: none;
     padding: 10px;
     outline-width: 0;
-    width: 250px;
+    width: 30vw;
 }
 
 .header__center > svg:hover {
@@ -87,11 +87,7 @@
 }
 
 @media screen and (max-width: 960px) {
-    .header__center > input {
-        width: 100px;
-    }
 
-    
 
     .header__right > p {
       display: none;
