@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 import desktop_logo from "./logo.png";
 import mobile_logo from "./mobile_logo.png";
@@ -55,7 +55,6 @@ export default function Header(props) {
   document.addEventListener("mousedown", handleClickOutside);
   return (
     <div className="header">
-      <Router>
         <img src={logo} className="header__icon" alt="logo" />
         <div className="header__center">
           <input type="text" />
@@ -90,7 +89,6 @@ export default function Header(props) {
             })}
           </ul>
         </div>
-      </Router>
     </div>
   );
 }
