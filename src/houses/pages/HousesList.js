@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
-
- import { client } from "../../client";
-import { createClient } from "contentful-management";
+import {useParams } from 'react-router-dom'
+//  import { client } from "../../client";
+// import { createClient } from "contentful-management";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import HouseItem from "../components/HouseItem";
 import "./HousesList.css";
 
-export default function HousesList({ nb }) {
+export default function HousesList(props) {
   const [articles, setArticles] = useState();
   const [loading, setLoading] = useState(true);
-
-  const query = `
-  {
-    houseCollection {
+  const [query, setQuery] = useState(`{
+    houseCollection  {
       items {
         name
         city
@@ -25,12 +23,92 @@ export default function HousesList({ nb }) {
         price
       }
     }
-  }`;
+  }`)
 
 
+
+ 
+  const {name, location} = useParams();
   //Fetching the data with graphql
+  
     useEffect(() => {
       const fetchHouses = async () => {
+        if(props.nb){
+          setQuery(`{
+            houseCollection (limit: ${props.nb}) {
+              items {
+                name
+                city
+                featuredimageCollection {
+                  items {
+                    url
+                  }
+                }
+                description
+                price
+              }
+            }
+          }`)
+        }
+        else{
+          if(location !== "flexible" && name === "any"  ){
+            setQuery(`{
+              houseCollection (where: {city_contains: "${location}"}){
+                items {
+                  name
+                  city
+                  featuredimageCollection {
+                    items {
+                      url
+                    }
+                  }
+                  description
+                  price
+                }
+              }
+            }`)
+          }
+          else if(location === "flexible" && name !== "any" ){
+            setQuery(`{
+              houseCollection (where: {name_contains: "${name}"}){
+                items {
+                  name
+                  city
+                  featuredimageCollection {
+                    items {
+                      url
+                    }
+                  }
+                  description
+                  price
+                }
+              }
+            }`)
+          }
+          else if(location !== "flexible" && name !== "any" ){
+            setQuery(`{
+              houseCollection(where: {
+                AND: [
+                {city_contains: "${location}"},
+                {name_contains: "${name}"}
+                ]}) 
+                {
+                items {
+                  name
+                  city
+                  featuredimageCollection {
+                    items {
+                      url
+                    }
+                  }
+                  description
+                  price
+                }
+              }
+            }
+            `)
+          }
+        }
         await fetch(
           `https://graphql.contentful.com/content/v1/spaces/${process.env.REACT_APP_SPACE_ID}/`,
           {
@@ -41,6 +119,7 @@ export default function HousesList({ nb }) {
               Authorization: "Bearer " + process.env.REACT_APP_ACCESS_TOKEN,
             },
             // send the GraphQL query
+            
             body: JSON.stringify({ query }),
           }
         )
@@ -52,12 +131,12 @@ export default function HousesList({ nb }) {
 
             // rerender the entire component with new data
             // We will only show the first nb items
-            setArticles(data.houseCollection.items.slice(0, nb));
+            setArticles(data.houseCollection.items);
             setLoading(false);
           });
       };
       fetchHouses();
-    }, []);
+    }, [query, location, name]);
 
   // useEffect( async () => {
   //   const client =  await createClient({
@@ -87,11 +166,14 @@ export default function HousesList({ nb }) {
         </div>
       ) : (
         <>
+        {articles.length > 0 ?
           <div className="flex-container">
             {articles.map((item, index) => (
               <HouseItem item={item} key={index} />
             ))}
-          </div>
+          </div> :
+          <h2>No items founds</h2>
+}
           
         </>
       )}

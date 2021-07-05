@@ -67,8 +67,8 @@ export default function Header(props) {
   document.addEventListener("mousedown", handleClickOutside);
   return (
     <>
-    <div className="header">
-        <img src={logo} className="header__icon" alt="logo" />
+    <div className={search ?"header search" : "header"}>
+        <Link to="/" ><img src={logo} className="header__icon" alt="logo" /></Link>
         {!search &&<div className="header__center" onClick={()=> setSearch(!search)}>
           <input type="text" />
           <SearchIcon />
@@ -104,7 +104,7 @@ export default function Header(props) {
           </ul>
         </div>
     </div>
-    {search && <SearchBar />}
+    {search && <SearchBar setShow={setSearch} />}
     </>
   );
 }
