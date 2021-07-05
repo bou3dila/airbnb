@@ -13,7 +13,7 @@ import { MenuItems } from "./MenuItems";
 
 import "./Header.css";
 import SearchBar from "../UIElements/SearchBar";
-import { AuthContext } from "../context/auth-context";
+import { AuthContext } from "../../context/auth-context";
 
 export default function Header(props) {
   const auth = useContext(AuthContext);

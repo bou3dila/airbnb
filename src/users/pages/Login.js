@@ -1,12 +1,14 @@
 import React, { useState, useContext } from "react";
-import { AuthContext } from '../../shared/components/context/auth-context'
+import { Link } from "react-router-dom";
+import { AuthContext } from '../../shared/context/auth-context'
 
 import "./Auth.css";
 
-export default function Auth() {
+export default function Login() {
     const auth = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false)
 
   const onSubmitHandler = async (e) => {
     const query = `{
@@ -46,9 +48,10 @@ export default function Auth() {
         }
         if(data.userCollection.items.length >0){
             auth.login(data.userCollection.items[0].email)
+            setError(false)
         }
         else
-            console.log("not logged in")
+            setError(true)
       });
   };
 
@@ -76,6 +79,7 @@ export default function Auth() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          
           <div className="form-border"></div>
           <label htmlFor="user-password" style={{ "paddingTop": "22px" }}>
             &nbsp;Password
@@ -93,15 +97,16 @@ export default function Auth() {
           <a href="#">
             <legend className="forgot-pass">Forgot password?</legend>
           </a>
+           <p className={error ? "error": "hidden"}>Email or password incorrect</p> 
           <input
             className="submit-btn"
             type="submit"
             name="submit"
             value="LOGIN"
           />
-          <a href="#" className="signup">
+          <Link to="/signup" className="signup">
             Don't have account yet?
-          </a>
+          </Link>
         </form>
       </div>
     </div>

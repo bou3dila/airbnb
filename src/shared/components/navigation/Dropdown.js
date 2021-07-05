@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { MenuItems } from './MenuItems'
 import "./Dropdown.css";
-import { AuthContext } from "../context/auth-context";
+import { AuthContext } from "../../context/auth-context";
 
 function Dropdown() {
 

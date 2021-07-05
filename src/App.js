@@ -9,9 +9,10 @@ import { useState, useCallback } from "react";
 import "./App.css";
 import HousesList from "./houses/pages/HousesList";
 import Header from "./shared/components/navigation/Header";
-import Auth from "./users/pages/Auth";
-import { AuthContext } from "./shared/components/context/auth-context";
+import Login from "./users/pages/Login";
+import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from "./shared/hooks/auth-hook";
+import SignUp from "./users/pages/Signup";
 
 function App() {
 
@@ -40,9 +41,11 @@ function App() {
         <HousesList nb={10} />
       </Route>
       <Route path="/login" exact>
-        <Auth />
+        <Login />
       </Route>
-
+      <Route path="/signup" exact>
+        <SignUp />
+      </Route>
       <Route path="/:location/:name/places" exact>
         <h2> Your search result </h2>
         <HousesList />
