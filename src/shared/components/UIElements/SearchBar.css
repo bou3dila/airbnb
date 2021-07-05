@@ -2,12 +2,12 @@
 
 
 .product-search {
-    position: absolute;
+  position: fixed;
     z-index: 999;
   display: flex;
+  align-items: center;
   min-width: 80%;
   max-height: 80px;
-  align-items: center;
   background: white;
   border-radius: 50px;
   margin: -100px 50px;
