@@ -12,18 +12,24 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { MenuItems } from "./MenuItems";
 
 import "./Header.css";
+import SearchBar from "../UIElements/SearchBar";
 
 export default function Header(props) {
   const [logo, setLogo] = useState(desktop_logo);
   const [dropdown, setDropdown] = useState(false);
   const [click, setClick] = useState(false);
+  const [search, setSearch] = useState(false);
 
+
+  // when the page loads it will detect if its small or big screen
+  // to choose the right logo
   useEffect(() => {
     resize();
   }, []);
 
-
-  const onMouseEnter = () => {
+// we will open the dropdown menu only when we 
+// have a pc size screen
+  const onClick = () => {
     if (window.innerWidth < 960) {
       setDropdown(false);
     } else {
@@ -31,14 +37,21 @@ export default function Header(props) {
     }
   };
 
+  // closing the dropdown menu and the search bar when clicking outside
   const handleClickOutside = (e) => {
     if (e.target.className !== "dropdown-link") setDropdown(false);
+    if (e.target.className !== "search-input" &&
+    e.target.className !== "search-label" &&
+    e.target.className !== "search-button") setSearch(false);
+
   };
 
   const handleClick = () => {
     setClick(!click);
   };
 
+
+  // change the icons when the screen shrink or grow
   const resize = () => {
     setDropdown(false);
     if (window.innerWidth > 960) {
@@ -49,20 +62,24 @@ export default function Header(props) {
   };
 
   window.addEventListener("resize", resize);
+
+
   document.addEventListener("mousedown", handleClickOutside);
   return (
+    <>
     <div className="header">
         <img src={logo} className="header__icon" alt="logo" />
-        <div className="header__center">
+        {!search &&<div className="header__center" onClick={()=> setSearch(!search)}>
           <input type="text" />
           <SearchIcon />
-        </div>
+        </div>}
+        
 
         <div className="header__right">
           <p>Become a host </p>
 
           <LanguageIcon />
-          <div className="header__avatar " onClick={onMouseEnter}>
+          <div className="header__avatar " onClick={onClick}>
             <DehazeIcon className="avatar" />
             <Avatar />
           </div>
@@ -87,5 +104,7 @@ export default function Header(props) {
           </ul>
         </div>
     </div>
+    {search && <SearchBar />}
+    </>
   );
 }

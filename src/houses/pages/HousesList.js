@@ -15,6 +15,7 @@ export default function HousesList({ nb }) {
     houseCollection {
       items {
         name
+        city
         featuredimageCollection {
           items {
             url
@@ -26,6 +27,8 @@ export default function HousesList({ nb }) {
     }
   }`;
 
+
+  //Fetching the data with graphql
     useEffect(() => {
       const fetchHouses = async () => {
         await fetch(
@@ -48,7 +51,8 @@ export default function HousesList({ nb }) {
             }
 
             // rerender the entire component with new data
-            setArticles(data.houseCollection.items);
+            // We will only show the first nb items
+            setArticles(data.houseCollection.items.slice(0, nb));
             setLoading(false);
           });
       };
@@ -57,7 +61,7 @@ export default function HousesList({ nb }) {
 
   // useEffect( async () => {
   //   const client =  await createClient({
-  //       accessToken: 'CFPAT-dg8rSsW-Mfzo-9BhP8wgupsP2HXnMdfZpK59a2Vp2mU'
+  //       accessToken: REACT_APP_PERSONAL_ACCESS_TOKEN
   //     })
 
   //     await client.getSpace('gf1b0zrehy5p')
@@ -77,7 +81,7 @@ export default function HousesList({ nb }) {
 
   return (
     <>
-      {!articles ? (
+      {loading ? (
         <div className="center">
           <LoadingSpinner />
         </div>
