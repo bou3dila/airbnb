@@ -22,9 +22,6 @@ export default function Header(props) {
     resize();
   }, []);
 
-  const closeMobileMenu = () => {
-    setClick(false);
-  };
 
   const onMouseEnter = () => {
     if (window.innerWidth < 960) {

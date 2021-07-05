@@ -12,8 +12,9 @@ function App() {
       
       <Router>
         <Header />
-        <main>
-          <HousesList />
+        <main className="container">
+        <h2>Recently added </h2>
+          <HousesList nb={5} />
         </main>
       </Router>
     </div>

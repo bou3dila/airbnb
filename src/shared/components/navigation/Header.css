@@ -110,6 +110,12 @@
     .header__right > p {
       display: none;
     }
+
+    
+.header__icon{
+    margin-right: 50px;
+    
+}
     
 
     .nav-menu {

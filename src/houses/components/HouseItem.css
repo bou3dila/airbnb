@@ -1,18 +1,41 @@
 .card {
-    margin-top: 10px;
-    max-width: 345px;
-    margin-left: 50px;
+    max-width: 300px;
+    min-width: 300px;
+    margin: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 6px 18px -9px rgba(0, 0, 0, 0.75);
+    transition: transform 100ms ease-in;
+    cursor: pointer;
 }
 
-.media {
-    height: 150px;
+.card:hover {
+    transform: scale(1.07);
 }
 
-@media screen and (max-width: 960px) {
+.card > img {
+    object-fit: fill;
+    min-width: 300px;
+    max-height: 200px;
+    width: 100%;
+}
 
+.card__info {
+    margin-top: -30px;
+    border-radius: 10px;
+    padding: 20px;
+    padding-top: 20px;
+    border: 1;
+}
 
-    .card {
-        margin-top: 10px;
-        max-width: 80%;
-    }
+.card__info > h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.card__info > h4 {
+    font-size: 14px;
+    font-weight: 300;
+    margin-top: -10px;
+    margin-bottom: 8px;
 }
