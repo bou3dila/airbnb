@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {  Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import desktop_logo from "./logo.png";
 import mobile_logo from "./mobile_logo.png";
@@ -13,13 +13,14 @@ import { MenuItems } from "./MenuItems";
 
 import "./Header.css";
 import SearchBar from "../UIElements/SearchBar";
+import { AuthContext } from "../context/auth-context";
 
 export default function Header(props) {
+  const auth = useContext(AuthContext);
   const [logo, setLogo] = useState(desktop_logo);
   const [dropdown, setDropdown] = useState(false);
   const [click, setClick] = useState(false);
   const [search, setSearch] = useState(false);
-
 
   // when the page loads it will detect if its small or big screen
   // to choose the right logo
@@ -27,8 +28,8 @@ export default function Header(props) {
     resize();
   }, []);
 
-// we will open the dropdown menu only when we 
-// have a pc size screen
+  // we will open the dropdown menu only when we
+  // have a pc size screen
   const onClick = () => {
     if (window.innerWidth < 960) {
       setDropdown(false);
@@ -40,16 +41,17 @@ export default function Header(props) {
   // closing the dropdown menu and the search bar when clicking outside
   const handleClickOutside = (e) => {
     if (e.target.className !== "dropdown-link") setDropdown(false);
-    if (e.target.className !== "search-input" &&
-    e.target.className !== "search-label" &&
-    e.target.className !== "search-button") setSearch(false);
-
+    if (
+      e.target.className !== "search-input" &&
+      e.target.className !== "search-label" &&
+      e.target.className !== "search-button"
+    )
+      setSearch(false);
   };
 
   const handleClick = () => {
     setClick(!click);
   };
-
 
   // change the icons when the screen shrink or grow
   const resize = () => {
@@ -63,17 +65,19 @@ export default function Header(props) {
 
   window.addEventListener("resize", resize);
 
-
   document.addEventListener("mousedown", handleClickOutside);
   return (
     <>
-    <div className={search ?"header search" : "header"}>
-        <Link to="/" ><img src={logo} className="header__icon" alt="logo" /></Link>
-        {!search &&<div className="header__center" onClick={()=> setSearch(!search)}>
-          <input type="text" />
-          <SearchIcon />
-        </div>}
-        
+      <div className={search ? "header search" : "header"}>
+        <Link to="/">
+          <img src={logo} className="header__icon" alt="logo" />
+        </Link>
+        {!search && (
+          <div className="header__center" onClick={() => setSearch(!search)}>
+            <input type="text" />
+            <SearchIcon />
+          </div>
+        )}
 
         <div className="header__right">
           <p>Become a host </p>
@@ -88,23 +92,57 @@ export default function Header(props) {
             {click ? <ClearIcon /> : <DehazeIcon />}
           </div>
           <ul className={click ? "nav-menu active" : "nav-menu"}>
-            {MenuItems.map((item, index) => {
-              return (
-                <li key={index}>
-                  <Link
-                    className={click ? "nav-links active" : "nav-links"}
-                    to={item.path}
-                    onClick={() => setClick(false)}
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              );
-            })}
+            {auth.isLoggedIn && (
+              <li>
+                <Link
+                  className={click ? "nav-links active" : "nav-links"}
+                  to="/signup"
+                  onClick={() => setClick(false)}
+                >
+                  Sign up
+                </Link>
+              </li>
+            )}
+            {auth.isLoggedIn && (
+              <li>
+                <Link
+                  className={click ? "nav-links active" : "nav-links"}
+                  to="/login"
+                  onClick={() => setClick(false)}
+                >
+                  Log in
+                </Link>
+              </li>
+            )}
+            {auth.isLoggedIn && (
+              <li>
+                <Link
+                  className={click ? "nav-links active" : "nav-links"}
+                  to="/HosExperience"
+                  onClick={() => setClick(false)}
+                >
+                  Host an experience
+                </Link>
+              </li>
+            )}
+            {auth.isLoggedIn && (
+              <li>
+                <a className={click ? "nav-links active" : "nav-links"} onClick={auth.logout}>LOGOUT</a>
+              </li>
+            )}
+            <li>
+              <Link
+                className={click ? "nav-links active" : "nav-links"}
+                to="/help"
+                onClick={() => setClick(false)}
+              >
+                Help
+              </Link>
+            </li>
           </ul>
         </div>
-    </div>
-    {search && <SearchBar setShow={setSearch} />}
+      </div>
+      {search && <SearchBar setShow={setSearch} />}
     </>
   );
 }
