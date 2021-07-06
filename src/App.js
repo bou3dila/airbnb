@@ -20,14 +20,21 @@ function App() {
 
   let routes;
 
-  if(email){
+  if(email != false){
     routes = (<Switch>
       <Route path="/" exact>
         <h2>Recently added </h2>
         <HousesList nb={10} />
       </Route>
-
+      
       <Route path="/:location/:name/places" exact>
+        <h2> Your search result </h2>
+        <HousesList />
+      </Route>
+      <Route path="/addplace" exact>
+        <h2> New Host </h2>
+      </Route>
+      <Route path="/:mail/places" exact>
         <h2> Your search result </h2>
         <HousesList />
       </Route>
@@ -39,6 +46,10 @@ function App() {
       <Route path="/" exact>
         <h2>Recently added </h2>
         <HousesList nb={10} />
+      </Route>
+      <Route path="/:mail/places" exact>
+        <h2> Your search result </h2>
+        <HousesList />
       </Route>
       <Route path="/login" exact>
         <Login />

@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
 import { createClient } from "contentful-management";
+import { client } from "../../client";
 
 import "./Auth.css";
 
@@ -9,11 +10,31 @@ export default function SignUp() {
   const auth = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const client = await createClient({
+        accessToken: process.env.REACT_APP_PERSONAL_ACCESS_TOKEN,
+      });
 
-  const checkMail= async (email) =>{
+      await client
+        .getSpace("gf1b0zrehy5p")
+        .then((space) => space.getEnvironment("master"))
+        .then((environment) => environment.getEntries())
+        .then((entry) => {
+          console.log(entry);
+        })
+        .catch(() => {
+          setError(true);
+        });
+    };
+    fetchData();
+  }, []);
+
+  const checkMail = async (email) => {
     const query = `{
       userCollection (where: {
         email:"${email}"
@@ -25,39 +46,39 @@ export default function SignUp() {
         }
       }
     }`;
-  await fetch(
-    `https://graphql.contentful.com/content/v1/spaces/${process.env.REACT_APP_SPACE_ID}/`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // Authenticate the request
-        Authorization: "Bearer " + process.env.REACT_APP_ACCESS_TOKEN,
-      },
-      // send the GraphQL query
+    await fetch(
+      `https://graphql.contentful.com/content/v1/spaces/${process.env.REACT_APP_SPACE_ID}/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authenticate the request
+          Authorization: "Bearer " + process.env.REACT_APP_ACCESS_TOKEN,
+        },
+        // send the GraphQL query
 
-      body: JSON.stringify({ query }),
-    }
-  )
-    .then((response) => response.json())
-    .then(({ data, errors }) => {
-      if (errors) {
-        console.error(errors);
+        body: JSON.stringify({ query }),
       }
-      if(data.userCollection.items.length >0){
+    )
+      .then((response) => response.json())
+      .then(({ data, errors }) => {
+        console.log(data.userCollection.items.length)
+        if (errors) {
+          console.error(errors);
+        }
+        if (data.userCollection.items.length > 0) {
+          console.log(data.userCollection.items.length)
           return true;
-      }
-      else
-          return false;
-    });
-};
-  
+        } else return false;
+      });
+  };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if(checkMail(email)){
-      setMsg("email already exist")
-      return
+    const x = await checkMail(email);
+    if (x) {
+      setMsg("email already exist");
+      return;
     }
     setMsg("");
     const client = await createClient({
@@ -72,6 +93,7 @@ export default function SignUp() {
           fields: {
             email: { "en-US": email },
             password: { "en-US": password },
+            name: { "en-US": name },
           },
         })
       )
@@ -81,7 +103,6 @@ export default function SignUp() {
         setError(false);
       })
       .catch(() => {
-        
         setError(true);
       });
   };
@@ -98,6 +119,19 @@ export default function SignUp() {
           <div className="underline-title"></div>
         </div>
         <form onSubmit={onSubmitHandler} className="form">
+          <label htmlFor="user-name" style={{ paddingTop: "13px" }}>
+            &nbsp;Name
+          </label>
+          <input
+            className="form-content"
+            type="text"
+            name="name"
+            autoComplete="on"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <div className="form-border"></div>
           <label htmlFor="user-email" style={{ paddingTop: "13px" }}>
             &nbsp;Email
           </label>

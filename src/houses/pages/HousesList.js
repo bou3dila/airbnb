@@ -29,6 +29,7 @@ export default function HousesList(props) {
 
  
   const {name, location} = useParams();
+  const {mail} = useParams();
   //Fetching the data with graphql
   
     useEffect(() => {
@@ -50,6 +51,24 @@ export default function HousesList(props) {
             }
           }`)
         }
+        else
+          if(mail  ){
+            setQuery(`{
+              houseCollection (where: {owner: "${mail}"}){
+                items {
+                  name
+                  city
+                  featuredimageCollection {
+                    items {
+                      url
+                    }
+                  }
+                  description
+                  price
+                }
+              }
+            }`)
+          }
         else{
           if(location !== "flexible" && name === "any"  ){
             setQuery(`{
@@ -138,25 +157,6 @@ export default function HousesList(props) {
       fetchHouses();
     }, [query, location, name]);
 
-  // useEffect( async () => {
-  //   const client =  await createClient({
-  //       accessToken: REACT_APP_PERSONAL_ACCESS_TOKEN
-  //     })
-
-  //     await client.getSpace('gf1b0zrehy5p')
-  //     .then((space) => space.getEnvironment('master'))
-  //     .then((environment) => environment.createEntry('user', {
-  //       fields: {
-
-  //               email: {'en-US': 'fhjkbhjbvkbdsa'},
-  //               password: {'en-US': 'bou3dila'}
-
-  //       }
-  //     }))
-  //     .then((entry) => entry.publish())
-  //     .catch(console.error)
-
-  // }, []);
 
   return (
     <>

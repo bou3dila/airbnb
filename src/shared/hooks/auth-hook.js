@@ -13,7 +13,6 @@ export const useAuth = () => {
         email: mail,
       })
     );
-    console.log(localStorage)
   }, []);
 
   const logout = useCallback(() => {
