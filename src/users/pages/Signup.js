@@ -13,7 +13,6 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState(false);
-
   useEffect(() => {
     const fetchData = async () => {
       const client = await createClient({

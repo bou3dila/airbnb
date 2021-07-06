@@ -4,7 +4,7 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { useState, useCallback } from "react";
+import { useState, useContext } from "react";
 
 import "./App.css";
 import HousesList from "./houses/pages/HousesList";
@@ -13,14 +13,16 @@ import Login from "./users/pages/Login";
 import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from "./shared/hooks/auth-hook";
 import SignUp from "./users/pages/Signup";
+import NewHouse from "./houses/pages/NewHouse";
 
 function App() {
 
+  const auth = useContext(AuthContext);
   const {login, logout, email} = useAuth();
 
   let routes;
 
-  if(email != false){
+  if(!!email  ){
     routes = (<Switch>
       <Route path="/" exact>
         <h2>Recently added </h2>
@@ -32,7 +34,7 @@ function App() {
         <HousesList />
       </Route>
       <Route path="/addplace" exact>
-        <h2> New Host </h2>
+        <NewHouse />
       </Route>
       <Route path="/:mail/places" exact>
         <h2> Your search result </h2>
@@ -46,6 +48,8 @@ function App() {
       <Route path="/" exact>
         <h2>Recently added </h2>
         <HousesList nb={10} />
+      </Route>
+      <Route path="/addplace" exact>
       </Route>
       <Route path="/:mail/places" exact>
         <h2> Your search result </h2>
