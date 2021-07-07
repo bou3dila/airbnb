@@ -80,7 +80,12 @@ export default function Header(props) {
         )}
 
         <div className="header__right">
-          <p>Become a host </p>
+        <Link
+        className='header_link'
+                  to={auth.isLoggedIn ?"/addplace": "/signup"}
+                >
+                  Become a host
+                  </Link>
 
           <LanguageIcon />
           <div className="header__avatar " onClick={onClick}>
@@ -118,7 +123,7 @@ export default function Header(props) {
               <li>
                 <Link
                   className={click ? "nav-links active" : "nav-links"}
-                  to="/HosExperience"
+                  to="/addplace"
                   onClick={() => setClick(false)}
                 >
                   Host an experience

@@ -39,7 +39,7 @@ function Dropdown() {
             <li>
               <Link
                 className='dropdown-link'
-                to="/HosExperience"
+                to="/addplace"
                 onClick={() => setClick(false)}
               >
                 Host an experience

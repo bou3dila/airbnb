@@ -1,5 +1,8 @@
 import { createClient } from "contentful-management";
 import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from 'react-router-dom';
+
+
 import ImageUpload from "../../shared/components/UIElements/ImageUpload";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { AuthContext } from "../../shared/context/auth-context";
@@ -9,11 +12,11 @@ import "./NewHouse.css";
 export default function NewHouse() {
 
     const auth = useContext(AuthContext);
-
+    const history = useHistory();
     const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [file, setFile] = useState();
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [city, setCity] = useState("Al Marsa");
 
@@ -21,10 +24,10 @@ export default function NewHouse() {
   const createFile = async (f) => {
       setLoading(true)
     const client = await createClient({
-      accessToken: "CFPAT-dg8rSsW-Mfzo-9BhP8wgupsP2HXnMdfZpK59a2Vp2mU",
+      accessToken: process.env.REACT_APP_PERSONAL_ACCESS_TOKEN,
     });
 
-    const space = await client.getSpace("gf1b0zrehy5p");
+    const space = await client.getSpace(process.env.REACT_APP_SPACE_ID);
     const environment = await space.getEnvironment("master");
 
     const asset = await environment.createAssetFromFiles({
@@ -71,7 +74,7 @@ export default function NewHouse() {
         });
     
         await client
-          .getSpace("gf1b0zrehy5p")
+          .getSpace(process.env.REACT_APP_SPACE_ID)
           .then((space) => space.getEnvironment("master"))
           .then((environment) =>
             environment.createEntry("house", {
@@ -90,6 +93,7 @@ export default function NewHouse() {
           })
           .catch(() => {});
           setLoading(false);
+          history.push('/');
 
     }
   },[assets])

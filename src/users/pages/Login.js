@@ -56,9 +56,9 @@ export default function Login() {
   };
 
   //disable scrolling
-  window.onscroll = function () {
-    window.scrollTo(0, 0);
-  };
+  // window.onscroll = function () {
+  //   window.scrollTo(0, 0);
+  // };
   return (
     <div className="auth_card">
       <div className="card-content">

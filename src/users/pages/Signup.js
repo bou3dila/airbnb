@@ -20,7 +20,7 @@ export default function SignUp() {
       });
 
       await client
-        .getSpace("gf1b0zrehy5p")
+        .getSpace(process.env.REACT_APP_SPACE_ID)
         .then((space) => space.getEnvironment("master"))
         .then((environment) => environment.getEntries())
         .then((entry) => {
@@ -107,9 +107,9 @@ export default function SignUp() {
   };
 
   //disable scrolling
-  window.onscroll = function () {
-    window.scrollTo(0, 0);
-  };
+  // window.onscroll = function () {
+  //   window.scrollTo(0, 0);
+  // };
   return (
     <div className="auth_card">
       <div className="card-content">

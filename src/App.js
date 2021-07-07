@@ -14,6 +14,7 @@ import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from "./shared/hooks/auth-hook";
 import SignUp from "./users/pages/Signup";
 import NewHouse from "./houses/pages/NewHouse";
+import HomePage from "./houses/pages/HomePage";
 
 function App() {
 
@@ -25,8 +26,7 @@ function App() {
   if(!!email  ){
     routes = (<Switch>
       <Route path="/" exact>
-        <h2>Recently added </h2>
-        <HousesList nb={10} />
+        <HomePage />
       </Route>
       
       <Route path="/:location/:name/places" exact>
@@ -46,10 +46,14 @@ function App() {
   else{
     routes =(<Switch>
       <Route path="/" exact>
+      <div>
+          <img src="https://a0.muscache.com/im/pictures/e09893fc-1d02-49b2-befa-c4be7a57ed18.jpg" alt="" ></img>
+        </div>
         <h2>Recently added </h2>
         <HousesList nb={10} />
       </Route>
       <Route path="/addplace" exact>
+      {/* <Redirect to="/" /> */}
       </Route>
       <Route path="/:mail/places" exact>
         <h2> Your search result </h2>

@@ -7,7 +7,7 @@ import HouseItem from "../components/HouseItem";
 import "./HousesList.css";
 
 export default function HousesList(props) {
-  const [articles, setArticles] = useState();
+  const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState(`{
     houseCollection  {
@@ -32,7 +32,11 @@ export default function HousesList(props) {
   const {mail} = useParams();
   //Fetching the data with graphql
   
+
+
     useEffect(() => {
+      
+      setLoading(true);
       const fetchHouses = async () => {
         if(props.nb){
           setQuery(`{
@@ -127,6 +131,25 @@ export default function HousesList(props) {
             }
             `)
           }
+          else if(location === "flexible" && name === "any" ){
+            setQuery(`{
+              houseCollection 
+                {
+                items {
+                  name
+                  city
+                  featuredimageCollection {
+                    items {
+                      url
+                    }
+                  }
+                  description
+                  price
+                }
+              }
+            }
+            `)
+          }
         }
         await fetch(
           `https://graphql.contentful.com/content/v1/spaces/${process.env.REACT_APP_SPACE_ID}/`,
@@ -155,7 +178,8 @@ export default function HousesList(props) {
           });
       };
       fetchHouses();
-    }, [query, location, name]);
+      setLoading(false);
+    });
 
 
   return (
