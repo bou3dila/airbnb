@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import "./SearchBar.css";
-export default function SearchBar({setShow}) {
+export default function SearchBar(props) {
 
+    const setShow= props.setShow
     const [place, setPlace] = useState("flexible");
     const [name, setName] = useState("any");
 
@@ -21,7 +22,7 @@ export default function SearchBar({setShow}) {
 
   return (
     <form onSubmit={ onSubmitHandler}>
-      <div className="product-search">
+      <div className="product-search" style={props.style}>
         <div className="search-element">
           <label className="search-label">What are you looking for?</label>
           <input

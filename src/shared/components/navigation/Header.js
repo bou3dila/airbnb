@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation  } from "react-router-dom";
 
 import desktop_logo from "./logo.png";
 import mobile_logo from "./mobile_logo.png";
@@ -16,10 +16,12 @@ import SearchBar from "../UIElements/SearchBar";
 import { AuthContext } from "../../context/auth-context";
 
 export default function Header(props) {
+  const location = useLocation();
   const auth = useContext(AuthContext);
   const [logo, setLogo] = useState(desktop_logo);
   const [dropdown, setDropdown] = useState(false);
   const [click, setClick] = useState(false);
+  const [navbar, setNavbar] = useState(false);
   const [search, setSearch] = useState(false);
 
   // when the page loads it will detect if its small or big screen
@@ -63,29 +65,53 @@ export default function Header(props) {
     }
   };
 
-  window.addEventListener("resize", resize);
+  //change the navbar background color before scrolling
+  const changeBackground = () => {
+    if (window.scrollY > 0) {
+      setNavbar(true);
+    } else {
+      setNavbar(false);
+      setSearch(false)
+    }
+  };
 
-  document.addEventListener("mousedown", handleClickOutside);
+  useEffect(() => {
+    console.log( (location.pathname!= "/"))
+    
+    window.addEventListener("scroll", changeBackground);
+    window.addEventListener("resize", resize);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("scroll", changeBackground);
+      window.removeEventListener("resize", resize);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
-      <div className={search ? "header search" : "header"}>
+      <div
+        className={
+           search ? "header active search" : (navbar || (location.pathname!= "/")) ? "header  active" : "header  "
+        }
+      >
         <Link to="/">
           <img src={logo} className="header__icon" alt="logo" />
         </Link>
-        {!search && (
+        {!search && (navbar || (location.pathname!= "/") ) && (
           <div className="header__center" onClick={() => setSearch(!search)}>
             <input type="text" />
             <SearchIcon />
           </div>
         )}
 
-        <div className="header__right">
-        <Link
-        className='header_link'
-                  to={auth.isLoggedIn ?"/addplace": "/signup"}
-                >
-                  Become a host
-                  </Link>
+        <div className={(navbar || (location.pathname!= "/")) ? "header__right  " : "header__right  active"}>
+          <Link
+            className="header_link"
+            to={auth.isLoggedIn ? "/addplace" : "/signup"}
+          >
+            Become a host
+          </Link>
 
           <LanguageIcon />
           <div className="header__avatar " onClick={onClick}>
@@ -94,7 +120,7 @@ export default function Header(props) {
           </div>
           {dropdown && <Dropdown />}
           <div className="menu_icon" onClick={handleClick}>
-            {click ? <ClearIcon /> : <DehazeIcon />}
+            {click ? <ClearIcon /> : <DehazeIcon style={(navbar || (location.pathname!= "/"))   ? {"color": "black"} : {"color": "white"} }/>}
           </div>
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             {auth.isLoggedIn && (
@@ -132,7 +158,12 @@ export default function Header(props) {
             )}
             {auth.isLoggedIn && (
               <li>
-                <a className={click ? "nav-links active" : "nav-links"} onClick={auth.logout}>LOGOUT</a>
+                <a
+                  className={click ? "nav-links active" : "nav-links"}
+                  onClick={auth.logout}
+                >
+                  LOGOUT
+                </a>
               </li>
             )}
             <li>

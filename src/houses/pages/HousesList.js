@@ -37,6 +37,7 @@ export default function HousesList(props) {
     useEffect(() => {
       
       setLoading(true);
+      setArticles([])
       const fetchHouses = async () => {
         if(props.nb){
           setQuery(`{
@@ -131,25 +132,6 @@ export default function HousesList(props) {
             }
             `)
           }
-          else if(location === "flexible" && name === "any" ){
-            setQuery(`{
-              houseCollection 
-                {
-                items {
-                  name
-                  city
-                  featuredimageCollection {
-                    items {
-                      url
-                    }
-                  }
-                  description
-                  price
-                }
-              }
-            }
-            `)
-          }
         }
         await fetch(
           `https://graphql.contentful.com/content/v1/spaces/${process.env.REACT_APP_SPACE_ID}/`,
@@ -179,7 +161,7 @@ export default function HousesList(props) {
       };
       fetchHouses();
       setLoading(false);
-    });
+    },[]);
 
 
   return (
