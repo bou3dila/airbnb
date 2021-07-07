@@ -21,8 +21,9 @@ export default function NewHouse() {
   const [city, setCity] = useState("Al Marsa");
 
   const [assets, setAssets] = useState([]);
-  const createFile = async (f) => {
+  const createFile =  (f) => {
       setLoading(true)
+      const fetchData = async() =>{
     const client = await createClient({
       accessToken: process.env.REACT_APP_PERSONAL_ACCESS_TOKEN,
     });
@@ -57,7 +58,8 @@ export default function NewHouse() {
         asset.publish();
         setAssets((ass) => [...ass, asset.sys.id]) 
         
-      });
+      });}
+       fetchData();
       
   };
 

@@ -44,7 +44,7 @@ export default function HomePage() {
       </Link>
       <h2 className="cities-title">Explore nearby</h2>
       <div className="cities-container">
-        {cities.map((city) => <City city={city} />)}
+        {cities.map((city,index) => <City key={index} city={city} />)}
       </div>
       <h2 className="houselist-title"> Recently Added</h2>
         <HousesList nb={50} />

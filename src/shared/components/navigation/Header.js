@@ -92,20 +92,20 @@ export default function Header(props) {
     <>
       <div
         className={
-           search ? "header active search" : (navbar || (location.pathname!= "/")) ? "header  active" : "header  "
+           search ? "header active search" : (navbar || (location.pathname!== "/")) ? "header  active" : "header  "
         }
       >
         <Link to="/">
           <img src={logo} className="header__icon" alt="logo" />
         </Link>
-        {!search && (navbar || (location.pathname!= "/") ) && (
+        {!search && (navbar || (location.pathname!== "/") ) && (
           <div className="header__center" onClick={() => setSearch(!search)}>
             <input type="text" />
             <SearchIcon />
           </div>
         )}
 
-        <div className={(navbar || (location.pathname!= "/")) ? "header__right  " : "header__right  active"}>
+        <div className={(navbar || (location.pathname!== "/")) ? "header__right  " : "header__right  active"}>
           <Link
             className="header_link"
             to={auth.isLoggedIn ? "/addplace" : "/signup"}
@@ -120,7 +120,7 @@ export default function Header(props) {
           </div>
           {dropdown && <Dropdown />}
           <div className="menu_icon" onClick={handleClick}>
-            {click ? <ClearIcon /> : <DehazeIcon style={(navbar || (location.pathname!= "/"))   ? {"color": "black"} : {"color": "white"} }/>}
+            {click ? <ClearIcon /> : <DehazeIcon style={(navbar || (location.pathname!== "/"))   ? {"color": "black"} : {"color": "white"} }/>}
           </div>
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             {auth.isLoggedIn && (

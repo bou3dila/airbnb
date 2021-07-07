@@ -4,7 +4,6 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { useState, useContext } from "react";
 
 import "./App.css";
 import HousesList from "./houses/pages/HousesList";
@@ -19,7 +18,6 @@ import HomePage from "./houses/pages/HomePage";
 
 function App() {
 
-  const auth = useContext(AuthContext);
   const {login, logout, email} = useAuth();
 
   let routes;

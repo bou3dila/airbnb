@@ -34,11 +34,12 @@ export default function HousesList(props) {
   
 
 
-    useEffect(() => {
+    useEffect( () => {
       
-      setLoading(true);
+      
       setArticles([])
       const fetchHouses = async () => {
+        setLoading(true);
         if(props.nb){
           setQuery(`{
             houseCollection (limit: ${props.nb}) {
@@ -58,6 +59,7 @@ export default function HousesList(props) {
         }
         else
           if(mail  ){
+
             setQuery(`{
               houseCollection (where: {owner: "${mail}"}){
                 items {
@@ -110,12 +112,33 @@ export default function HousesList(props) {
             }`)
           }
           else if(location !== "flexible" && name !== "any" ){
+            
             setQuery(`{
               houseCollection(where: {
                 AND: [
                 {city_contains: "${location}"},
                 {name_contains: "${name}"}
                 ]}) 
+                {
+                items {
+                  name
+                  city
+                  featuredimageCollection {
+                    items {
+                      url
+                    }
+                  }
+                  description
+                  price
+                }
+              }
+            }
+            `)
+          }
+          else if(location === "flexible" && name === "any" ){
+            
+            setQuery(`{
+              houseCollection
                 {
                 items {
                   name
@@ -158,10 +181,11 @@ export default function HousesList(props) {
             setArticles(data.houseCollection.items);
             setLoading(false);
           });
-      };
-      fetchHouses();
+          
       setLoading(false);
-    },[]);
+      };
+       fetchHouses();
+    },[location, mail, name, props.nb, query]);
 
 
   return (
