@@ -9,6 +9,7 @@ import { useState, useContext } from "react";
 import "./App.css";
 import HousesList from "./houses/pages/HousesList";
 import Header from "./shared/components/navigation/Header";
+import Footer from "./shared/components/navigation/Footer";
 import Login from "./users/pages/Login";
 import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from "./shared/hooks/auth-hook";
@@ -88,6 +89,7 @@ function App() {
             {routes}
           </main>
         </Router>
+        <Footer />
       </AuthContext.Provider>
   );
 }
