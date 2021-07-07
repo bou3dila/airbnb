@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import SearchBar from "../../shared/components/UIElements/SearchBar";
+import City from "../components/City";
+import {cities } from '../components/cities'
 
 import "./HomePage.css";
 import HousesList from "./HousesList";
 
 export default function HomePage() {
+
+
+    
   const [search, setSearch] = useState(true);
 
   const changeBackground = () => {
@@ -33,12 +39,15 @@ export default function HomePage() {
       )}
       <h2 className="button_title">Not sure where to go? Perfect!</h2>
 
-      <button  className="button">
-        I'm flexible
-      </button>
-      <div style={{ marginTop: "100vh" }}>
-        <HousesList nb={50} />
+      <Link to="/flexible/any/places">
+        <button className="button">I'm flexible</button>
+      </Link>
+      <h2 className="cities-title">Explore nearby</h2>
+      <div className="cities-container">
+        {cities.map((city) => <City city={city} />)}
       </div>
+      <h2 className="houselist-title"> Recently Added</h2>
+        <HousesList nb={50} />
     </div>
   );
 }
