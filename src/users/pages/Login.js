@@ -1,14 +1,52 @@
+
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from '../../shared/context/auth-context'
+import { AuthContext } from "../../shared/context/auth-context";
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
-import "./Auth.css";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', 
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: theme.palette.secondary.main,
+    '&:hover':{
+      backgroundColor: "red"
+    }
+  },
+}));
+
 
 export default function Login() {
-    const auth = useContext(AuthContext);
+
+  const classes = useStyles();
+  const auth = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
 
   const onSubmitHandler = async (e) => {
     const query = `{
@@ -20,9 +58,11 @@ export default function Login() {
         })
           {
           items {
-            email
-            password
-           
+            email,
+            password,
+           sys{
+             id
+           }
           }
         }
       }`;
@@ -46,12 +86,11 @@ export default function Login() {
         if (errors) {
           console.error(errors);
         }
-        if(data.userCollection.items.length >0){
-            auth.login(data.userCollection.items[0].email)
-            setError(false)
-        }
-        else
-            setError(true)
+        if (data.userCollection.items.length > 0) {
+          console.log(data.userCollection.items[0].sys.id)
+          auth.login(data.userCollection.items[0].sys.id);
+          setError(false);
+        } else setError(true);
       });
   };
 
@@ -60,55 +99,72 @@ export default function Login() {
   //   window.scrollTo(0, 0);
   // };
   return (
-    <div className="auth_card">
-      <div className="card-content">
-        <div className="card-title">
-          <h2>LOGIN</h2>
-          <div className="underline-title"></div>
-        </div>
-        <form onSubmit={onSubmitHandler} className="form">
-          <label htmlFor="user-email" style={{ "paddingTop": "13px" }}>
-            &nbsp;Email
-          </label>
-          <input
-            className="form-content"
-            type="email"
-            name="email"
-            autoComplete="on"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          
-          <div className="form-border"></div>
-          <label htmlFor="user-password" style={{ "paddingTop": "22px" }}>
-            &nbsp;Password
-          </label>
-          <input
-            id="user-password"
-            className="form-content"
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className="form-border"></div>
-          <a href="#">
-            <legend className="forgot-pass">Forgot password?</legend>
-          </a>
-           <p className={error ? "error": "hidden"}>Email or password incorrect</p> 
-          <input
-            className="submit-btn"
-            type="submit"
-            name="submit"
-            value="LOGIN"
-          />
-          <Link to="/signup" className="signup">
-            Don't have account yet?
-          </Link>
-        </form>
-      </div>
+    <Container component="main" maxWidth="xs">
+    <div className={classes.paper}>
+      <Avatar className={classes.avatar}>
+        <LockOutlinedIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Sign in
+      </Typography>
+      <form onSubmit={onSubmitHandler} className={classes.form} >
+        <TextField
+        error={error}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          value={email}
+          helperText="Email or password incorrect"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Remember me"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Sign In
+        </Button>
+        <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to="/signup" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        <Box mt={8}>
+      </Box>
+      </form>
     </div>
+  </Container>
   );
 }

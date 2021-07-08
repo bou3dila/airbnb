@@ -1,10 +1,11 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 
 import "./HouseItem.css";
 
 export default function HouseItem({ item }) {
   return (
-    <div className="card">
+    <Link className="card" to={`/${item.sys.id}/house`}>
       <img src={item.featuredimageCollection.items[0].url} alt ="" />
       <div className="card__info">
         <h3>{item.city}</h3>
@@ -16,6 +17,6 @@ export default function HouseItem({ item }) {
                 <h3>{item.price}$/Night</h3>
       </div>
        
-    </div>
+    </Link>
   );
 }

@@ -3,20 +3,20 @@ import { useState, useCallback, useEffect } from 'react';
 
 
 export const useAuth = () => {
-  const [email, setEmail] = useState(false);
+  const [uid, setUID] = useState(false);
 
-  const login = useCallback((mail) => {
-    setEmail(mail);
+  const login = useCallback((id) => {
+    setUID(id);
     localStorage.setItem(
       'userData',
       JSON.stringify({
-        email: mail,
+        uid: id,
       })
     );
   }, []);
 
   const logout = useCallback(() => {
-    setEmail(null);
+    setUID(null);
     localStorage.removeItem('userData');
   }, []);
 
@@ -25,10 +25,10 @@ export const useAuth = () => {
     if (
       storedData 
     ) {
-      login(storedData.email);
+      login(storedData.uid);
     }
   }, [login]);
 
 
-  return {  login, logout, email };
+  return {  login, logout, uid };
 };

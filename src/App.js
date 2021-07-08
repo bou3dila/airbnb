@@ -15,14 +15,15 @@ import { useAuth } from "./shared/hooks/auth-hook";
 import SignUp from "./users/pages/Signup";
 import NewHouse from "./houses/pages/NewHouse";
 import HomePage from "./houses/pages/HomePage";
+import HousePage from "./houses/pages/HousePage";
 
 function App() {
 
-  const {login, logout, email} = useAuth();
+  const {login, logout, uid} = useAuth();
 
   let routes;
 
-  if(!!email  ){
+  if(!!uid  ){
     routes = (<Switch>
       <Route path="/" exact>
         <HomePage />
@@ -35,6 +36,9 @@ function App() {
       <Route path="/addplace" exact>
         <NewHouse />
       </Route>
+      <Route path="/:houseId/house" exact>
+        <HousePage  />
+      </Route>
       <Route path="/:mail/places" exact>
         <h2> Your search result </h2>
         <HousesList />
@@ -45,11 +49,10 @@ function App() {
   else{
     routes =(<Switch>
       <Route path="/" exact>
-      <div>
-          <img src="https://a0.muscache.com/im/pictures/e09893fc-1d02-49b2-befa-c4be7a57ed18.jpg" alt="" ></img>
-        </div>
-        <h2>Recently added </h2>
-        <HousesList nb={10} />
+      <HomePage />
+      </Route>
+      <Route path="/:houseId/house" exact>
+        <HousePage  />
       </Route>
       <Route path="/addplace" exact>
       {/* <Redirect to="/" /> */}
@@ -75,8 +78,8 @@ function App() {
   return (
       <AuthContext.Provider
         value={{
-          isLoggedIn: !!email,
-          email: email,
+          isLoggedIn: !!uid,
+          uid: uid,
           login: login,
           logout: logout,
         }}

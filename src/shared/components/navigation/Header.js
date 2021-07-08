@@ -76,7 +76,6 @@ export default function Header(props) {
   };
 
   useEffect(() => {
-    console.log( (location.pathname!= "/"))
     
     window.addEventListener("scroll", changeBackground);
     window.addEventListener("resize", resize);

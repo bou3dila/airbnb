@@ -12,6 +12,9 @@ export default function HousesList(props) {
   const [query, setQuery] = useState(`{
     houseCollection  {
       items {
+          sys{
+            id
+          }
         name
         city
         featuredimageCollection {
@@ -44,6 +47,9 @@ export default function HousesList(props) {
           setQuery(`{
             houseCollection (limit: ${props.nb}) {
               items {
+                  sys{
+                    id
+                  }
                 name
                 city
                 featuredimageCollection {
@@ -63,6 +69,9 @@ export default function HousesList(props) {
             setQuery(`{
               houseCollection (where: {owner: "${mail}"}){
                 items {
+                    sys{
+                      id
+                    }
                   name
                   city
                   featuredimageCollection {
@@ -81,6 +90,9 @@ export default function HousesList(props) {
             setQuery(`{
               houseCollection (where: {city_contains: "${location}"}){
                 items {
+                    sys{
+                      id
+                    }
                   name
                   city
                   featuredimageCollection {
@@ -98,6 +110,9 @@ export default function HousesList(props) {
             setQuery(`{
               houseCollection (where: {name_contains: "${name}"}){
                 items {
+                    sys{
+                      id
+                    }
                   name
                   city
                   featuredimageCollection {
@@ -121,6 +136,9 @@ export default function HousesList(props) {
                 ]}) 
                 {
                 items {
+                    sys{
+                      id
+                    }
                   name
                   city
                   featuredimageCollection {
@@ -141,6 +159,9 @@ export default function HousesList(props) {
               houseCollection
                 {
                 items {
+                  sys{
+                    id
+                  }
                   name
                   city
                   featuredimageCollection {

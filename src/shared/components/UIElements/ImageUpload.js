@@ -52,9 +52,9 @@ const ImageUpload = ({file, setFile}) => {
       />
       <div className={`image-upload `}>
         
-        <button type="button" onClick={pickImageHandler}>
+        <button type="button" className="button--upload" onClick={pickImageHandler}>
           PICK IMAGE
-        </button>
+        </button> 
       </div>
       {/* {!isValid && <p>{props.errorText}</p>} */}
     </div>

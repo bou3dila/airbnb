@@ -5,13 +5,14 @@ a {
 .error{
   color: red;
 }
-.hidden{
-  display: none;
-}
 
-  label {
+
+
+  .label {
     font-family: "Raleway", sans-serif;
-    font-size: 11pt;
+    font-size: 16pt;
+    max-width: 100px;
+    min-width: 100px;
   }
   .forgot-pass {
     color: #f72548;
@@ -24,9 +25,9 @@ a {
     background: #fbfbfb;
     border-radius: 8px;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
-    height: 550px;
+    height: 700px;
     margin: 1rem auto 8.1rem auto;
-    width: 700px;
+    width: 50vw;
   }
   .card-content {
     padding: 12px 44px;
@@ -74,8 +75,6 @@ a {
   }
   .form-content {
     background: #fbfbfb;
-    border: none;
-    outline: none;
     padding-top: 14px;
     
   }
@@ -83,15 +82,54 @@ a {
     background: -webkit-linear-gradient(right, #f72548, #f72548);
     height: 2px;
     margin: -1.1rem auto 0 auto;
-    width: 89px;
+    width: 15vw;
   }
+  
+
+  .input-item{
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+    .input-item > input{
+      border-width: 2px;
+      border-color: black;
+      width: 40vw;
+      margin-top: 8px;
+      margin-left: 2vw;
+      font-size: 16px;
+  }
+  .input-item > select{
+    border-width: 2px;
+    border-color: black;
+    width: 40vw;
+    margin-top: 8px;
+    margin-left: 2vw;
+    font-size: 16px;
+  }
+  
+  .input-item > textarea{
+    border-width: 2px;
+    border-color: black;
+    width: 40vw;
+    margin-top: 8px;
+    height: 100px;
+    margin-left: 2vw;
+    font-size: 16px;
+  }
+  
   
 
   @media screen and (max-width: 960px) {
 
-    .auth_card {
+    .newplace_card {
         
-        width: 300px;
+        width: 50vw;
       }
+      .input-item > input{
+        max-width: 50px !important;
+    }
     
     }

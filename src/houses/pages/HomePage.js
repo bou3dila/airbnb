@@ -11,7 +11,7 @@ export default function HomePage() {
 
 
     
-  const [search, setSearch] = useState(true);
+  const [search, setSearch] = useState(false);
 
   const changeBackground = () => {
     if (window.scrollY > 0) {
@@ -22,6 +22,11 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    if (window.scrollY > 0) {
+      setSearch(false);
+    } else {
+      setSearch(true);
+    }
     window.addEventListener("scroll", changeBackground);
     return () => {
       window.removeEventListener("scroll", changeBackground);
